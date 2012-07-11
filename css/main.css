@@ -1,0 +1,209 @@
+/*!------contents begin---------*/
+
+#content {
+    background: url("../img/hld.jpg") repeat-x scroll 0 0 transparent;
+    padding-top: 70px;
+}
+#wrapper{
+	 padding-top: 40px;
+}
+.block {
+padding-bottom: 5px;
+margin-bottom: 18px;
+}
+
+.block .block_head .bheadl {
+width: 20px;
+height: 54px;
+float: left;
+background: url(../img/bheadl.gif) top left no-repeat;
+}
+.block .block_head {
+height: 54px;
+line-height: 54px;
+background: url(../img/bhead.gif) 0 0 repeat-x;
+overflow: hidden;
+}
+.block .block_head .bheadr {
+width: 20px;
+height: 54px;
+float: right;
+background: url(../img/bheadr.gif) top right no-repeat;
+}
+.block .block_head h2 {
+font-size: 18px;
+text-transform: uppercase;
+color: #555;
+text-shadow: 1px 1px 0 white;
+float: left;
+line-height: 54px;
+}
+.block .block_head ul {
+float: right;
+text-transform: uppercase;
+font-size: 11px;
+line-height: 54px;
+margin: 0;
+padding: 0;
+text-shadow: 1px 1px 0 white;
+}
+.block .block_head ul li {
+display: inline;
+font-weight: bold;
+padding: 3px 0;
+padding-left: 20px;
+}
+.block .block_head ul li a {
+text-decoration: none;
+color: #666;
+outline: none;
+}
+.block.withsidebar .block_content {
+background: white url(../img/sidebar.gif) 0 0 repeat-y;
+position: relative;
+padding: 0;
+padding-left: 210px;
+padding-right: 20px;
+}
+.block.withsidebar .block_content .sidebar {
+width: 190px;
+float: left;
+margin: 0 20px 18px;
+margin-left: -210px;
+font-size: 11px;
+}
+.block.withsidebar .block_content .sidebar ul.sidemenu {
+padding: 0;
+margin: 0 0 10px;
+list-style: none;
+}
+.block.withsidebar .block_content .sidebar ul.sidemenu li {
+padding: 0;
+margin: 0;
+background: 0;
+border-bottom: 1px solid #CCC;
+
+}
+.block.withsidebar .block_content .sidebar ul.sidemenu li a {
+display: block;
+padding: 10px 13px;
+font-weight: bold;
+}
+.block .block_content {
+background: white;
+border-left: 1px solid #CCC;
+border-right: 1px solid #CCC;
+}
+.block.withsidebar .block_content .sidebar ul.sidemenu li.active a, .block.withsidebar .block_content .sidebar ul.sidemenu li.active a:hover {
+background: white;
+border: 0;
+}
+.block.withsidebar .block_content .sidebar ul.sidemenu li a .badge {
+float: right;
+font-size: 9px;
+margin-right: 1px;
+padding: 1px 9px;
+}
+.block.withsidebar .block_content .sidebar ul.sidemenu li a:hover .badge {
+margin-right: 0;
+}
+a:hover {
+color: #EC8526;
+text-decoration: underline;
+}
+.badge:hover {
+color: white;
+text-decoration: none;
+cursor: pointer;
+}
+
+.block.withsidebar .block_content .sidebar_content {
+width: 100%;
+padding: 18px 0;
+}
+
+.block .block_content::before, .block .block_content::after {
+display: table;
+content: "";
+}
+.block .block_content::after {
+clear: both;
+}
+.block .block_content::before, .block .block_content::after {
+display: table;
+content: "";
+}
+.block.withsidebar .bendl {
+width: 191px;
+background: url(../img/bendsb.gif) bottom left no-repeat;
+}
+.block .bendr {
+width: 5px;
+height: 5px;
+background: url(../img/bendr.gif) bottom left no-repeat;
+float: right;
+}
+.block .bendl {
+width: 5px;
+height: 5px;
+background: url(../img/bendl.gif) bottom left no-repeat;
+float: left;
+}
+/*!------end contents--------*/
+
+/*!------footer--------*/
+#footer {
+background: #222;
+color: #999;
+line-height: 48px;
+}
+/*!------end footer--------*/
+
+/*!------Nav begin--------*/
+.navbar-inner {
+background-color: #033E80;
+background-image: -moz-linear-gradient(center top , #033E80, #0142A0);
+background-image: -webkit-linear-gradient(top, #033E80, #0142A0);
+}
+.navbar .nav > li > a {
+float: none;
+padding: 27px 10px 8px;
+line-height: 19px;
+font-size: 11px;
+font-weight: bold;
+color: #E8E8E8;
+text-decoration: none;
+text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+font-family: "Tahoma", "Lucida Grande", sans-serif;
+}
+.navbar .nav > li > a:hover {
+background-color: transparent;
+color: white;
+text-decoration: none;
+}
+.navbar .nav .active > a, .navbar .nav .active > a:hover {
+color: white;
+text-decoration: none;
+background-color: transparent;
+}
+.navbar .btn-navbar:hover, .navbar .btn-navbar:active, .navbar .btn-navbar.active, .navbar .btn-navbar.disabled, .navbar .btn-navbar[disabled] {
+background-color: transparent;
+}
+.navbar .btn-navbar {
+background-color: #033E80;
+background-image: -webkit-linear-gradient(top, #033E80, #0142A0);
+background-image: -o-linear-gradient(top, #033E80, #0142A0);
+background-image: linear-gradient(top, #033E80, #0142A0);
+background-image: -moz-linear-gradient(top, #033E80, #0142A0);
+}
+.navbar .brand {
+display: block;
+float: left;
+padding: 27px 20px 12px 30px;
+margin-left: -20px;
+font-size: 20px;
+font-weight: 200;
+line-height: 1;
+color: #FFFFFF;
+}
+/*!------Nav end--------*/
