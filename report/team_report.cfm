@@ -34,24 +34,48 @@
 <html>
 <head>
 	<title>Daily Report</title>
-	<link rel="stylesheet" href="../css/bootstrap.css">
-	<link rel="stylesheet" href="../css/main.css">
+	<link rel="stylesheet" href="../css/report.css">
+	<cfif cgi.HTTP_USER_AGENT contains "MSIE">
+		<style type="text/css">
+			.header{
+				padding-left:18%;
+			}
+			.container{
+				margin-left: 20%;
+			}
+		</style>
+	</cfif>
 </head>
 <body>
-	<div id="content">
-		<div class="container">
-		<cfinclude template="../common/header.cfm">
-			<div class="block withsidebar">
-				<div class="block_head">
-					<div class="bheadl"></div>
-					<div class="bheadr"></div>
-					<h2>Report</h2>
-
-				</div>
-				<div class="block_content">
-<cfinclude template="../common/teamSidebar.cfm">
-					<div class="sidebar_content">
-	<cfoutput>
+	
+	<div class="header">
+            <div class="wrapper">
+               <cfif isdefined("session.user_name") and session.user_name gt 0>
+                <span class="login">Welcome <cfoutput>#session.user_name#</cfoutput></span>
+				</cfif>
+                <h1>Daily Report</h1>
+            </div>
+        </div>
+        <div class="container">
+            <div class="wrapper">
+                <div class="left-col">
+                    <ul>
+                        <li>
+                            <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/report/index.cfm">Personal Report</a>
+                        </li>
+                        <li class="active">
+                            <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/report/team_report.cfm">Team Report</a>
+                        </li>
+                        <li>
+                            <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/download/report_download.cfm">Report Download</a>
+                        </li>
+                        <li>
+                            <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/login.cfm?logout=1">Logout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="right-col">
+                   <cfoutput>
 		<cfif form.team_id eq 0>
 			<form action="" method="post">
 			<table>
@@ -90,11 +114,14 @@
 						<tr><td><b>#project_name# :</b> </td></tr>
 					</cfif>
 					<cfloop query="getMemberReportByProject">
-						<tr><td >
-							<ul>
-								<li>#report_details# - #report_timeframe# h - #report_progress#% 
-						<cfif report_jira neq "">- #report_jira#</cfif></li>
-							</ul>
+						<tr><td style="padding-left:10px">
+							<cfif report_details eq "">
+								see jira item - 
+							<cfelse>
+								#report_details# - 					
+							</cfif>
+							#report_timeframe# h - #report_progress#% 
+							<cfif report_jira neq "">- #report_jira#</cfif>
 						</td></tr>
 					</cfloop>
 					<cfif getMemberReportByProject.recordcount gt 0>
@@ -118,21 +145,16 @@
 		</table>
 		</cfif>
 	</cfoutput>
-	
-					</div>
-
-				</div>
-				<div class="bendl"></div>
-				<div class="bendr"></div>
-
-			</div>
-			<!--/block withsidebar-->
-			<cfinclude template="../common/footer.cfm">
-		</div>
-		<!--/.container -->
-	</div>
-	
-	
-	
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <div class="footer" align="center">
+            <p>
+				<img src="../img/activenetwork_logo.png"><br>
+                Copyright 2012 The Active Network&trade;
+            </p>
+        </div>
 </body>
 </html>

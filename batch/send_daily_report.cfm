@@ -68,11 +68,15 @@
 						<cfloop query="getMemberReportByProject">
 							<tr>
 								<td>
-									#report_details# - #report_timeframe# h - #report_progress#% 
-							<cfif report_jira neq "">
-								- #report_jira#
-							</cfif>
-	
+									<cfif report_details eq "">
+										see jira item - 
+									<cfelse>
+										#report_details# - 					
+									</cfif>
+									#report_timeframe# h - #report_progress#% 
+									<cfif report_jira neq "">
+										- #report_jira#
+									</cfif>	
 							</td></tr>
 						</cfloop>
 						<cfif getMemberReportByProject.recordcount gt 0>

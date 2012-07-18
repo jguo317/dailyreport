@@ -28,16 +28,27 @@
 <html>
 <head>
 	<title>Daily Report</title>
-	<link rel="stylesheet" href="css/bootstrap.css">
-	<link rel="stylesheet" href="css/main.css">
+	<link rel="stylesheet" href="css/report.css">
+	<cfif cgi.HTTP_USER_AGENT contains "MSIE">
+		<style type="text/css">
+			.header{
+				padding-left:18%;
+			}
+			.container{
+			}
+		</style>
+	</cfif>
 </head>
 <body>
-	<div id="content">
-		<div class="container">
-		<cfinclude template="common/header.cfm">
-			<div class="block withsidebar">
-					<div class="sidebar_content">
-						<cfoutput >#errorInfo#</cfoutput>
+	<div class="header">
+            <div class="wrapper">
+                <h1>Daily Report</h1>
+            </div>
+        </div>
+        <div class="container">
+            <div>
+                <div class="" align="center">
+                    <cfoutput >#errorInfo#</cfoutput>
 	<form action="" method="post">
 		<table align="center">
 			<tr>
@@ -49,18 +60,23 @@
 				<td><input type="password" name="password"></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center"><input type="submit" value="Login" name="submit"></td>
+				<td colspan="2" align="center">
+					<input type="submit" value="Login" name="submit" class="btn"></td>
 			</tr>	
 		</table>
 	</form>
-					</div>
+                </div>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <div class="footer" align="center">
+            <p>
+				<img src="img/activenetwork_logo.png"><br>
+                Copyright 2012 The Active Network&trade;
+            </p>
+        </div>
 
-
-			</div>
-			<!--/block withsidebar-->
-			<cfinclude template="common/footer.cfm">
-		</div>
-		<!--/.container -->
 	</div>
 </body>
 
