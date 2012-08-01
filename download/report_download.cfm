@@ -1,7 +1,18 @@
 <cfparam name="form.team_id" default="0" />
 <cfparam name="form.start_date" default="" />
 <cfparam name="form.end_date" default="" />
+<cfparam name="form.member_id" default="0" />
 <cfset error_info = "" />
+
+<cfif isdefined("form.preview")>
+	<cfif not isDate("#form.start_date#") or not isDate("#form.end_date#")>
+		<cfset error_info = "<font color='red'>The start date and end date must be a date.</font>">
+	<cfelseif DateFormat("#form.end_date#") lt DateFormat("#form.start_date#")>
+		<cfset error_info = "<font color='red'>The end date must not be less than the start date.</font>">
+	</cfif>
+	<cflocation url="report_download_build.cfm?team_id=#form.team_id#&start_date=#form.start_date#&end_date=#form.end_date#&member_id=#form.member_id#" />
+</cfif>
+
 
 <cfquery name="getTeams" datasource="#application.datasource#">
 	select distinct t.team_id, t.team_name
@@ -10,13 +21,16 @@
 	where ttu_frn_user_id = #session.user_id#
 </cfquery>
 
-<cfif isdefined("form.submit")>
-	<cfif not isDate("#form.start_date#") or not isDate("#form.end_date#")>
-		<cfset error_info = "<font color='red'>The start date and end date must be a date.</font>">
-	<cfelseif DateFormat("#form.end_date#") lt DateFormat("#form.start_date#")>
-		<cfset error_info = "<font color='red'>The end date must not be less than the start date.</font>">
-	</cfif>
-	<cflocation url="report_download_build.cfm?team_id=#form.team_id#&start_date=#form.start_date#&end_date=#form.end_date#" />
+<cfif getTeams.recordcount eq 1>
+	<cfset form.team_id = getTeams.team_id>
+</cfif>
+
+<cfif form.team_id gt 0>
+	<cfquery name="getMembers" datasource="#application.datasource#">
+		select user_id, user_fname + ' ' + user_lname as user_name
+		from users with(nolock)
+		join teams_to_users with(nolock) on ttu_frn_user_id = user_id and ttu_frn_team_id = #form.team_id#
+	</cfquery>
 </cfif>
 
 <html>
@@ -36,6 +50,11 @@
 	<script>
 		function CEReport(r_id) {
 			self.location="report_ce.cfm?r_id="+r_id;
+		}
+		
+		function changeTeam() {
+			var rForm = document.report_form;
+			rForm.submit();
 		}
 	</script>
 </head>
@@ -68,13 +87,14 @@
                 </div>
                 <div class="right-col">
                    <cfoutput>
-		<form action="" method="post">
+		<form action="" method="post" name="report_form">
 			<table>
 				<tr><td colspan="2">#error_info#</td></tr>
 				<tr>
 					<td>Team : </td>
 					<td><cfif getTeams.recordcount gt 1>
-							<select name="team_id" style="width:200px">
+							<select name="team_id" style="width:200px" onchange="changeTeam();">
+								<option value="0"></option>
 								<cfloop query="getTeams">
 									<option value="#team_id#" <cfif form.team_id eq team_id>selected</cfif>>#team_name#</option>
 								</cfloop>
@@ -86,6 +106,19 @@
 					</td>
 				</tr>
 				<tr>
+					<td>Members : </td>
+					<td>
+							<select name="member_id" style="width:200px">
+								<option value="0"></option>
+								<cfif isdefined('getMembers')>
+								<cfloop query="getMembers">
+									<option value="#user_id#" <cfif form.member_id eq user_id>selected</cfif>>#user_name#</option>
+								</cfloop>
+								</cfif>
+							</select>
+						</td>
+				</tr>
+				<tr>
 					<td>Start Date : </td>
 					<td><input type="text" name="start_date" value="#form.start_date#" size="27px"></td>
 				</tr>
@@ -94,7 +127,7 @@
 					<td><input type="text" name="end_date" value="#form.end_date#" size="27px"></td>
 				</tr>
 				<tr>
-					<td colspan="2" align="center"><input type="submit" name="submit" value="Download" class="btn"></td>
+					<td colspan="2" align="center"><input type="submit" name="preview" value="Preview" class="btn"></td>
 				</tr>
 			
 			</table>
