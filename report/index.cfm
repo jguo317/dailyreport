@@ -33,13 +33,17 @@
         </div>
         <div class="container">
             <div class="wrapper">
-                <div class="left-col">
+				<cfinclude template="../common/sidebar.cfm">
+                <!--- <div class="left-col">
                     <ul>
                         <li>
                             <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/report/index.cfm">Personal Report</a>
                         </li>
                         <li class="active">
                             <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/report/team_report.cfm">Team Report</a>
+                        </li>
+						<li>
+                            <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/report/team_report.cfm">Project Status</a>
                         </li>
                         <li>
                             <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/download/report_download.cfm">Report Download</a>
@@ -48,7 +52,7 @@
                             <a href="http://<cfoutput>#application.server#</cfoutput>/dailyreport/login.cfm?logout=1">Logout</a>
                         </li>
                     </ul>
-                </div>
+                </div> --->
                 <div class="right-col">
                     <cfoutput>
 	<table cellpadding="4" cellspacing="0" border="1">

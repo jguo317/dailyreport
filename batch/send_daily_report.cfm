@@ -98,13 +98,66 @@
 				</td>
 			</tr>	
 			</cfloop>
+			</table>
+			<br>
+			<h1 align="center">Project(s) Status</h1>
+			<cfquery name="getProjectStatus" datasource="#application.datasource#">
+		
+				select ps.*, project_name
+				from project_status ps with(nolock)  
+				join teams_to_users with(nolock) on ps_frn_user_id = ttu_frn_user_id and ttu_frn_team_id = #team_id#
+				join projects with(nolock) on project_id = ps_frn_p_id 
+				where datediff(day, getdate(), ps_timestamp) = 0
+			</cfquery>
+			<table border="1" width="100%" cellspacing="0" cellpadding="0">
+		<tr>
+			<th>Project</th>
+			<th>Version</th>
+			<th>Details</th>
+			<th>Status</th>
+			<th>Release Date</th>
+		</tr>
+		
+		<cfloop query="getProjectStatus">
+		<tr>			
+			<td align="center">#project_name#</td>
+			<td align="center">#ps_version#</td>
+			<td align="center" width="520px">#ps_details#</td>
+			<td align="center" width="260px">
+				<table>
+					<tr>
+						<td>Test Environment : </b></td>
+						<td>#ps_status#</td>
+					</tr>
+					<tr>
+						<td>Total Items : </td>
+						<td>#ps_item_total#</td>
+					</tr>
+					<tr>
+						<td>Closed Items : </td>
+						<td>#ps_item_closed#</td>
+					</tr>
+					<tr>
+						<td>Items In Test Queue : </td>
+						<td>#ps_item_tested#</td>
+					</tr>
+					<tr>
+						<td>Items In Progress : </td>
+						<td>#ps_item_open#</td>
+					</tr>
+				</table>
+				
+			</td>
+			<td align="center" width="130px">#dateformat(ps_release)#</td>
+		</tr>	
+		</cfloop>
+		</table>
 		</cfoutput>
 	</cfsavecontent>
 	
 	<cfmail from="#EMAIL_FROM#" to="#emailTo#" subject="#email_subject#" cc="#emailCc#" type="html">
 		#email_content#
 	</cfmail>
-
 </cfloop>
 
 <html>
