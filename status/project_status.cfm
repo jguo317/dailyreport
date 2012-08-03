@@ -100,11 +100,11 @@
 			
 			</td>
 			<td align="center">#ps_version#</td>
-			<td align="center">#ps_details#</td>
-			<td align="center">
+			<td align="center" width="520px">#ps_details#</td>
+			<td align="center" width="260px">
 				<table>
 					<tr>
-						<td><b>Test Environment : </b></td>
+						<td>Test Environment : </td>
 						<td>#ps_status#</td>
 					</tr>
 					<tr>
