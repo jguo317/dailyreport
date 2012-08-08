@@ -45,6 +45,11 @@
 			}
 		</style>
 	</cfif>
+	<script>
+		function create() {
+			<cfoutput>self.location="project_status_ce.cfm?team_id=#form.team_id#";</cfoutput>
+		}
+	</script>
 </head>
 <body>
 	
@@ -132,7 +137,7 @@
 		</table>
 		<cfif getPojectOwner.recordcount gt 0>
 			<table align=center>
-				<tr><td><a href="project_status_ce.cfm?team_id=#form.team_id#"><input type="button" name="submit" value="Create"></a></td></tr>
+				<tr><td><input type="button" name="submit" value="Create" onclick="create();"></td></tr>
 			</table>
 		</cfif>
 		</cfif>
