@@ -100,7 +100,7 @@
 			</cfloop>
 			</table>
 			<br>
-			<h1 align="center">Project(s) Status</h1>
+			
 			<cfquery name="getProjectStatus" datasource="#application.datasource#">
 		
 				select ps.*, project_name
@@ -109,6 +109,8 @@
 				join projects with(nolock) on project_id = ps_frn_p_id 
 				where datediff(day, getdate(), ps_timestamp) = 0
 			</cfquery>
+			<cfif getProjectStatus.recordcount gt 0>
+				<h1 align="center">Project(s) Status</h1>
 			<table border="1" width="100%" cellspacing="0" cellpadding="0">
 		<tr>
 			<th>Project</th>
@@ -152,12 +154,85 @@
 		</tr>	
 		</cfloop>
 		</table>
+		</cfif>
+		
+		<cfquery name="getTestItems" datasource="#application.datasource#">
+		
+			select item_id, item_key, ist_name as 'item_status',item_summary, item_priority, item_comment,item_timeframe,item_completed, user_fname + ' ' + user_lname as 'user_name', user_id
+			from item_status with(nolock)
+			join teams_to_users with(nolock) on item_frn_user_id = ttu_frn_user_id and ttu_frn_team_id = #team_id#
+			join users with(nolock) on user_id = item_frn_user_id
+			join item_status_type with(nolock) on ist_id = item_status
+			where item_created = 0 and datediff(day, getdate(), item_timestamp) = 0
+		</cfquery>
+		<cfif getTestItems.recordcount gt 0>
+			<h1 align="center">Test in Progress/Test Queue</h1>
+			<table border="1" width="100%" cellspacing="0" cellpadding="0">
+			<tr>
+				<th>Key</th>
+				<th>Summary</th>
+				<th>Status</th>
+				<th>Priority</th>
+				<th>Tester</th>
+				<th>% Complete</th>
+				<th>Spent Time</th>
+				<th>Comment</th>
+			</tr>
+			
+			<cfloop query="getTestItems">
+				<tr>			
+					<td align="center">#item_key#</td>
+					<td align="center">#item_summary#</td>
+					<td align="center">#item_status#</td>
+					<td align="center">#item_priority#</td>
+					<td align="center">#user_name#</td>
+					<td align="center">#item_completed#%</td>
+					<td align="center">#item_timeframe#</td>
+					<td align="center">#item_comment#</td>
+				</tr>	
+			</cfloop>
+			</table>		
+		</cfif>
+		
+		<cfquery name="getNewItems" datasource="#application.datasource#">
+		
+			select item_id, item_key, ist_name as 'item_status',item_summary, item_priority, item_comment, user_fname + ' ' + user_lname as 'user_name', user_id 
+			from item_status with(nolock)
+			join teams_to_users with(nolock) on item_frn_user_id = ttu_frn_user_id and ttu_frn_team_id = #team_id#
+			join users with(nolock) on user_id = item_frn_user_id
+			join item_status_type with(nolock) on ist_id = item_status
+			where item_created = 1 and datediff(day, getdate(), item_timestamp) = 0
+		</cfquery>
+		
+		<cfif getNewItems.recordcount gt 0>
+			<h1 align="center">New Open Issues</h1>
+			<table border="1" width="100%" cellspacing="0" cellpadding="0">
+				<tr>
+					<th>Key</th>
+					<th>Summary</th>
+					<th>Status</th>
+					<th>Priority</th>
+					<th>Reporter</th>			
+					<th>Comment</th>
+				</tr>
+				<cfloop query="getNewItems">
+				<tr>			
+					<td align="center">#item_key#</td>
+					<td align="center">#item_summary#</td>
+					<td align="center">#item_status#</td>
+					<td align="center">#item_priority#</td>
+					<td align="center">#user_name#</td>
+					<td align="center">#item_comment#</td>
+				</tr>	
+		</cfloop>		
+		</cfif>
+		
 		</cfoutput>
 	</cfsavecontent>
 	
-	<cfmail from="#EMAIL_FROM#" to="#emailTo#" subject="#email_subject#" cc="#emailCc#" type="html">
+	<!--- <cfmail from="#EMAIL_FROM#" to="#emailTo#" subject="#email_subject#" cc="#emailCc#" type="html">
 		#email_content#
-	</cfmail>
+	</cfmail> --->
 </cfloop>
 
 <html>
