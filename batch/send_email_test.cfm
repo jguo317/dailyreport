@@ -1,7 +1,7 @@
 <cfparam name="date" default="#now()#">
 
 <cfquery name="getTeams" datasource="#application.datasource#">
-	select * from teams with(nolock) where team_send_email = 1 and team_name in ('Endurance', 'USAH')
+	select * from teams with(nolock) where team_send_email = 0
 </cfquery>
 
 <cfloop query="getTeams">

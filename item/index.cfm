@@ -95,6 +95,7 @@
 			</table>
 			</form>
 		<cfelse>
+		<p align="center"><b><font size="4" color="red">Test in Progress/Test Queue</font></b></p>
 	<table border="1" width="100%" cellspacing="0" cellpadding="0">
 		<tr>
 			<th>Key</th>
@@ -128,7 +129,8 @@
 		</cfloop>
 		<tr><td colspan="8" align="center"><input type="button" name="submit" value="Create" onclick="createTestItem();"></td></tr>
 		</table>
-		
+		<br>
+		<p align="center"><b><font size="4" color="red">New Open Issues</font></b></p>
 		<table border="1" width="100%" cellspacing="0" cellpadding="0">
 		<tr>
 			<th>Key</th>

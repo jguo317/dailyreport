@@ -1,7 +1,7 @@
 <cfparam name="date" default="#now()#">
 
 <cfquery name="getTeams" datasource="#application.datasource#">
-	select * from teams with(nolock) where team_send_email = 1 and team_name in ('Endurance', 'USAH')
+	select * from teams with(nolock) where team_send_email = 1 and team_name in ('RC-QA', 'AI-QA')
 </cfquery>
 
 <cfloop query="getTeams">
@@ -18,7 +18,7 @@
 		<cfset emailTo = team_send_email_to />
 	</cfif>
 	<cfif team_send_email_subject neq '' >
-		<cfset email_subject = team_send_email_subject />
+		<cfset email_subject = team_send_email_subject & " - " & dateformat(now(), 'mm/dd/yy')/>
 	</cfif>
 	<cfif team_send_email_cc neq ''>
 		<cfset emailCc = team_send_email_cc />
