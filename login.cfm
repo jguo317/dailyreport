@@ -7,6 +7,7 @@
 		<cfset session.user_name = "" />
 	</cflock>
 </cfif>
+
 <cfif isdefined('form.submit')>
 	<cfquery name="getUserInfo" datasource="#application.datasource#">
 		select * from user_access with(nolock) where ua_username = '#form.username#' and ua_password = '#form.password#'

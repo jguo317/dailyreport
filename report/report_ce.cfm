@@ -5,11 +5,17 @@
 <cfparam name="report_timeframe" default="" />
 <cfparam name="report_progress" default="0" />
 <cfparam name="report_block" default="" />
+<cfparam name="report_frn_task_id" default="0" />
 <cfset error_info = "" />
 
 <cfquery name="getProjects" datasource="#application.datasource#">
 	select * from projects with(nolock)
 </cfquery>
+
+<cfquery name="getTasks" datasource="#application.datasource#">
+	select * from tasks with(nolock)
+</cfquery>
+
 
 <cfif isdefined("form.submit")>
 	<cfset r_id = form.r_id />
@@ -19,9 +25,12 @@
 	<cfset report_timeframe = form.report_timeframe />
 	<cfset report_progress = form.report_progress />
 	<cfset report_block = form.report_block />
+	<cfset report_frn_task_id = form.report_frn_task_id />
 
 	<cfif p_id eq 0>
-		<cfset error_info = '<font color="red">Please select a project.</font>' />		
+		<cfset error_info = '<font color="red">Please select a project.</font>' />	
+	<cfelseif report_frn_task_id eq 0>
+		<cfset error_info = '<font color="red">Please select a task type.</font>' />		
 	<cfelseif not IsNumeric(report_timeframe)>
 		<cfset error_info = '<font color="red">The timeframe must be numeric.</font>' />
 	<cfelseif not IsNumeric(report_progress) or report_progress gt 100 or report_progress lt 0>
@@ -38,6 +47,7 @@
 				      ,[report_progress] = #report_progress#
 				      ,[report_block] = '#report_block#'
 				      ,[report_frn_p_id] = #p_id#
+				      ,[report_frn_task_id] = #report_frn_task_id#
 				WHERE report_id = #r_id#
 			</cfquery>
 		<cfelse>
@@ -49,7 +59,8 @@
 			           ,[report_frn_user_id]
 			           ,[report_timeframe]
 			           ,[report_progress]
-			           ,[report_block])
+			           ,[report_block]
+			           ,[report_frn_task_id])
 			     VALUES
 			           (#p_id# 
 			           ,'#report_detail#'
@@ -57,7 +68,8 @@
 			           ,#session.user_id#
 			           ,'#report_timeframe#'
 			           ,#report_progress#
-			           ,'#report_block#')
+			           ,'#report_block#'
+			           ,#report_frn_task_id#)
 			</cfquery>
 		</cfif>
 		<script>
@@ -77,6 +89,7 @@
 	<cfset report_timeframe = getReport.report_timeframe />
 	<cfset report_progress = getReport.report_progress />
 	<cfset report_block = getReport.report_block />
+	<cfset report_frn_task_id = getReport.report_frn_task_id />
 	
 </cfif>
 </cfif>
@@ -121,6 +134,17 @@
 						<option value="0">
 						<cfloop query="getProjects">
 							<option value="#project_id#" <cfif project_id eq p_id>selected</cfif>>#project_name#</option>
+						</cfloop>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Task Type:</td>
+				<td>
+					<select name="report_frn_task_id" style="width:200px;">
+						<option value="0">
+						<cfloop query="getTasks">
+							<option value="#task_id#" <cfif task_id eq report_frn_task_id>selected</cfif>>#task_name#</option>
 						</cfloop>
 					</select>
 				</td>

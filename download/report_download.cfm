@@ -2,6 +2,7 @@
 <cfparam name="form.start_date" default="" />
 <cfparam name="form.end_date" default="" />
 <cfparam name="form.member_id" default="0" />
+<cfparam name="form.isOracle" default="0" />
 <cfset error_info = "" />
 
 <cfif isdefined("form.preview")>
@@ -9,8 +10,21 @@
 		<cfset error_info = "<font color='red'>The start date and end date must be a date.</font>">
 	<cfelseif DateFormat("#form.end_date#") lt DateFormat("#form.start_date#")>
 		<cfset error_info = "<font color='red'>The end date must not be less than the start date.</font>">
+	<cfelse>
+		<cfif form.isOracle>
+			<cfif form.team_id eq 0>
+				<cfset error_info = "<font color='red'>Please select a Team.</font>">
+			<cfelseif form.member_id eq 0>
+				<cfset error_info = "<font color='red'>Please select a Team Member.</font>">
+			<cfelseif datediff('d', form.start_date, form.end_date) neq 6>
+				<cfset error_info = "<font color='red'>The time inerval should be 7 days.</font>">
+			<cfelse>
+				<cflocation url="report_download_build_oracle.cfm?team_id=#form.team_id#&start_date=#form.start_date#&end_date=#form.end_date#&member_id=#form.member_id#" />		
+			</cfif>
+		<cfelse>
+			<cflocation url="report_download_build.cfm?team_id=#form.team_id#&start_date=#form.start_date#&end_date=#form.end_date#&member_id=#form.member_id#" />
+		</cfif>
 	</cfif>
-	<cflocation url="report_download_build.cfm?team_id=#form.team_id#&start_date=#form.start_date#&end_date=#form.end_date#&member_id=#form.member_id#" />
 </cfif>
 
 
@@ -131,6 +145,14 @@
 					<td><input type="text" name="end_date" value="#form.end_date#" size="27px"></td>
 				</tr>
 				<tr>
+					<td>Oracle Report : </td>
+					<td>
+						<input type="radio" name="isOracle" value="0" <cfif not form.isOracle>checked</cfif>>No
+						&nbsp;&nbsp;
+						<input type="radio" name="isOracle" value="1" <cfif form.isOracle>checked</cfif>>Yes
+					</td>
+				</tr>				
+				<tr>
 					<td colspan="2" align="center"><input type="submit" name="preview" value="Preview" class="btn"></td>
 				</tr>
 			
@@ -148,73 +170,5 @@
                 Copyright 2012 The Active Network&trade;
             </p>
         </div>
-	
-	
-	
-	
-	
-	
-	
-	
-	
-<!--- <div id="content">
-		<div class="container">
-		<cfinclude template="../common/header.cfm">
-			<div class="block withsidebar">
-				<div class="block_head">
-					<div class="bheadl"></div>
-					<div class="bheadr"></div>
-					<h2>Report</h2>
-
-				</div>
-				<div class="block_content">
-<cfinclude template="../common/downloadSidebar.cfm">
-					<div class="sidebar_content">
-	<cfoutput>
-		<form action="" method="post">
-			<table>
-				<tr><td colspan="2">#error_info#</td></tr>
-				<tr>
-					<td>Team : </td>
-					<td><cfif getTeams.recordcount gt 1>
-							<select name="team_id" style="width:200px">
-								<cfloop query="getTeams">
-									<option value="#team_id#" <cfif form.team_id eq team_id>selected</cfif>>#team_name#</option>
-								</cfloop>
-							</select>
-						<cfelse>
-							<input type="text" value="#getTeams.team_name#" disabled>
-							<input type="hidden" name="team_id" value="#getTeams.team_id#">
-						</cfif>
-					</td>
-				</tr>
-				<tr>
-					<td>Start Date : </td>
-					<td><input type="text" name="start_date" value="#form.start_date#" size="27px"></td>
-				</tr>
-				<tr>
-					<td>End Date : </td>
-					<td><input type="text" name="end_date" value="#form.end_date#" size="27px"></td>
-				</tr>
-				<tr>
-					<td colspan="2" align="center"><input type="submit" name="submit" value="Download" class="btn btn-info"></td>
-				</tr>
-			
-			</table>
-		</form>
-	</cfoutput>
-	
-					</div>
-
-				</div>
-				<div class="bendl"></div>
-				<div class="bendr"></div>
-
-			</div>
-			<!--/block withsidebar-->
-			<cfinclude template="../common/footer.cfm">
-		</div>
-		<!--/.container -->
-	</div> --->
 </body>
 </html>
