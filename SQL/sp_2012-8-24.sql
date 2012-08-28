@@ -14,7 +14,7 @@ begin
 	where report_timestamp between @startDate and @endDate and report_frn_user_id = @userId
 	group by project_name_oracle, task_number, convert(varchar(10), report_timestamp, 10)
 	
-	select r.project_name_oracle, r.task_number,
+	select distinct r.project_name_oracle, r.task_number,
 			isnull(r1.report_timeframe, 0) as 't1',
 			isnull(r2.report_timeframe, 0) as 't2',
 			isnull(r3.report_timeframe, 0) as 't3',
